@@ -8,7 +8,7 @@ class NeuralNet(nn.Module):
         hidden_size4 = 128
         super(NeuralNet, self).__init__()
         self.input_size = input_size
-        
+        self.dropout = nn.Dropout(p=0.1)
         self.relu = nn.ReLU()
         #magic
         self.l1 = nn.Linear(input_size, hidden_size1)
@@ -29,18 +29,18 @@ class NeuralNet(nn.Module):
         x = self.l1(x)
         x = self.b1(x)
         x = self.relu(x)
-
+        x = self.dropout(x)
         x = self.l2(x)
         x = self.b2(x)
         x = self.relu(x)
-
+        x = self.dropout(x)
         x = self.l3(x)
         x = self.b3(x)
         x = self.relu(x)
-
+        x = self.dropout(x)
         x = self.l4(x)
         x = self.b4(x)
         x = self.relu(x)
-
+        x = self.dropout(x)
         x = self.l5(x)
         return x
