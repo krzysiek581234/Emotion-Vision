@@ -10,7 +10,7 @@ from NeuralNet import NeuralNet
 from readDataFCNN import readDataFCNN
 #device name
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
+#device = 'cpu'
 #hyper
 input_size =  2304 #48x48
 
@@ -18,9 +18,11 @@ num_classes = 7
 num_epochs = 20
 batch_size = 32#100
 learning_rate = 0.001
-test_csv_file = '../../dataset/LearningTest.csv'
+Leaning_csv = '../../dataset/LearningTest.csv'
+test_csv_file = '../../dataset/PublicTest.csv'
 
-train_dataset = readDataFCNN(test_csv_file)
+
+train_dataset = readDataFCNN(Leaning_csv)
 
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
                                            batch_size=batch_size,
@@ -47,6 +49,7 @@ labels, features  = examples.__next__()
 # plt.show()
 #model = torchvision.models.resnet18(weights=torchvision.models.ResNet18_Weights.IMAGENET1K_V1,num_classes=7)
 model = NeuralNet(input_size, num_classes)
+model.to(device)
 # loss and optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
@@ -56,8 +59,8 @@ n_total = len(train_loader)
 for epoch in range(num_epochs):
     model.train()
     for i, (labels, images) in enumerate(train_loader):
-        # images = image.to(device)
-        # labels = label.to(device)
+        images = images.to(device)
+        labels = labels.to(device)
         optimizer.zero_grad()
         # forward
         outputs = model(images)
@@ -68,17 +71,19 @@ for epoch in range(num_epochs):
         optimizer.step()
 
         if(i+1) % 100 == 0:
-            print(f"epoch{epoch +1} / { num_epochs}, step {i+1}/{n_total}, loss: {loss}")
+            print(f"epoch {epoch +1} / { num_epochs}, step {i+1}/{n_total}, loss: {loss}")
 
-    print(f"Finish epoch {epoch} of traning")
+    print(f"Finish epoch {epoch + 1} of traning")
     #test
+#torch.save(model,'feed-Forward.pth')
+torch.save(model.state_dict(), 'feed-Forward.pth')
 with torch.no_grad():
     model.eval()
     n_correct = 0
     n_samples = 0
     for labels, images in test_loader:
-        # images = image.to(device)
-        # labels = label.to(device)
+        images = images.to(device)
+        labels = labels.to(device)
         outputs = model(images)
 
         _, predictions = torch.max(outputs,1)

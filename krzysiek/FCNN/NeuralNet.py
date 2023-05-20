@@ -27,8 +27,10 @@ class NeuralNet(nn.Module):
 
     def forward(self, x):
         x = self.l1(x)
+
         x = self.b1(x)
         x = self.relu(x)
+
         x = self.dropout(x)
         x = self.l2(x)
         x = self.b2(x)
