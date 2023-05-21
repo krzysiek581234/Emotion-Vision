@@ -76,7 +76,7 @@ class ImageFaceDetection:
 if __name__ == '__main__':
     face_cascade_path = 'haarcascade_frontalface_default.xml'  # Path to the Haar cascade XML file
     eyes_cascade_path = 'haarcascade_eye.xml'
-    image_path = './img/emotions.png'  # Path to the input JPEG image
+    image_path = './img/happy2.jpg'  # Path to the input JPEG image
 
     face_detector = ImageFaceDetection(face_cascade_path, eyes_cascade_path, './model/model.pth')
     face_detector.detect_faces(image_path)

@@ -6,10 +6,14 @@ import numpy as np
 from torchvision.transforms import transforms
 from torch.utils.data import DataLoader
 
+from AugmentedDataset import AugmentedDataset
 from CNN import CNN
 from FER2013Dataset import FER2013Dataset
+from HaarCascade import HaarCascade
+
 
 # Defining plotting settings
+
 plt.rcParams['figure.figsize'] = 14, 6
 
 # paths to FER2013 CSV files
@@ -23,13 +27,21 @@ transform = transforms.Compose([
     transforms.Normalize((0.5,), (0.5,))  # Normalize the image tensor
 ])
 
+aug_transform = transforms.Compose([
+    transforms.Resize((48, 48)),
+    transforms.ToTensor(),
+    transforms.Normalize((0.5,), (0.5,))
+])
+
 # Create an instance of the FER2013 dataset
 train_dataset = FER2013Dataset(train_csv_file, transform=transform)
 test_dataset = FER2013Dataset(test_csv_file, transform=transform)
 
+augmented_train_dataset = AugmentedDataset('augmented_images', aug_transform)
+
 # Create a DataLoader to load the data in batches
 batch_size = 128
-train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+train_loader = DataLoader(augmented_train_dataset, batch_size=batch_size, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
 # Plotting 25 images from the 1st batch
@@ -60,6 +72,9 @@ def preprocess_face(image):
     resized = normalise_transform(image)
     return resized
 
+# HAAR CASCADE CLASSIFIER
+haar = HaarCascade('./haarcascade_frontalface_default.xml')
+
 # Defining the model hyper parameters
 num_epochs = 30
 learning_rate = 0.001
@@ -80,14 +95,8 @@ for epoch in range(num_epochs):
         images = images.to(device)
         labels = labels.to(device)
 
-        transformed_images = []
-        for image in images:
-            transformed_images.append(preprocess_face(image))
-
-        transformed_images = torch.stack(transformed_images)
-
         # Calculating the model output and the cross entropy loss
-        outputs = model(transformed_images)
+        outputs = model(images)
         loss = criterion(outputs, labels)
 
         # Updating weights according to calculated loss
@@ -106,5 +115,5 @@ plt.xlabel("Number of epochs")
 plt.ylabel("Training loss")
 plt.show()
 
-torch.save(model.state_dict(), './model/model3.pth')
+torch.save(model.state_dict(), './model/model9.pth')
 
