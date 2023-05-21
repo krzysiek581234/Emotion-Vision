@@ -3,10 +3,10 @@ import tkinter as tk
 from tkinter import filedialog
 from PIL import ImageTk, Image
 from CNN import CNN
-from NeuralNet import NeuralNet
 import torch
 
 selected_image = None
+original_image = None
 found_faces = []
 coords = []
 
@@ -47,7 +47,8 @@ def contains_eye(face, eyes):
     return False
     
 def detect_face():
-    #global selected_image, found_faces, coords
+    global selected_image
+    selected_image = original_image.copy()
     found_faces.clear()
     coords.clear()
     eyes_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
@@ -58,8 +59,8 @@ def detect_face():
     gray = cv2.cvtColor(selected_image, cv2.COLOR_BGR2GRAY)
 
     # eyes and faces detection
-    eyes = eyes_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3)
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+    eyes = eyes_cascade.detectMultiScale(gray, scaleFactor=1.05, minNeighbors=5)
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.05, minNeighbors=5, minSize=(30, 30))
 
     # mark the eyes on the image
     for (x, y, w, h) in eyes:
@@ -91,7 +92,7 @@ def detect_face():
     display_image_label.image = haar_image_tk
     
 def choose_image():
-    global selected_image
+    global selected_image, original_image
     found_faces.clear()
     coords.clear()
     file_path = filedialog.askopenfilename()
@@ -100,7 +101,8 @@ def choose_image():
     
     # load the chosen image and display it on the window
     image = cv2.imread(file_path)
-    selected_image = image.copy() 
+    selected_image = image.copy()
+    original_image = image.copy()
     chosen_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     chosen_image = Image.fromarray(chosen_image)
     chosen_image_tk = ImageTk.PhotoImage(chosen_image)
