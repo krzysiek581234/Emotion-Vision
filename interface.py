@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import filedialog
 from PIL import ImageTk, Image
 from CNN import CNN
+from NeuralNet import NeuralNet
 import torch
 
 selected_image = None
@@ -15,14 +16,27 @@ def cnn_button_click():
         print("No image selected.")
         return
     else:
-        cnn_detect_emotions()
+        model_detect_emotions('cnn')
 
-def cnn_detect_emotions():
+def feedforward_button_click():
+    if found_faces is None:
+        print("No image selected.")
+        return
+    else:
+        model_detect_emotions('feedforward')
+
+def model_detect_emotions(model_name):
+    face_image = selected_image.copy()
     emotions = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    model = CNN().to(device)
-    model.load_state_dict(torch.load('./model.pth', map_location=torch.device('cpu')))
+    if model_name == 'cnn':
+        model = CNN().to(device)
+        model.load_state_dict(torch.load('./model.pth', map_location=torch.device('cpu')))
+    elif model_name == 'feedforward':
+        model = NeuralNet(2304, 7).to(device)
+        model.load_state_dict(torch.load('./feed-Forward.pth', map_location=torch.device('cpu')))
     model.eval()
+
     for i, face in enumerate(found_faces):
         with torch.no_grad():
             output = model(face)
@@ -30,9 +44,9 @@ def cnn_detect_emotions():
             emotion_index = torch.argmax(probabilities).item()
             emotion_label = emotions[emotion_index]
         x, y = coords[i][0], coords[i][1] 
-        cv2.putText(selected_image, emotion_label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+        cv2.putText(face_image, emotion_label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
 
-    emotions_image = cv2.cvtColor(selected_image, cv2.COLOR_BGR2RGB)
+    emotions_image = cv2.cvtColor(face_image, cv2.COLOR_BGR2RGB)
     emotions_image = Image.fromarray(emotions_image)
     emotions_image_tk = ImageTk.PhotoImage(emotions_image)
     display_image_label.configure(image=emotions_image_tk)
@@ -132,8 +146,8 @@ face_detection_button.pack(pady=10)
 cnn_button = tk.Button(buttons_frame, text="CNN", command=cnn_button_click)
 cnn_button.pack(pady=10)
 
-feed_forward_button = tk.Button(buttons_frame, text="Feed Forward")
-feed_forward_button.pack(pady=10)
+feedforward_button = tk.Button(buttons_frame, text="Feed Forward", command=feedforward_button_click)
+feedforward_button.pack(pady=10)
 
 transfer_learning_button = tk.Button(buttons_frame, text="Transfer Learning")
 transfer_learning_button.pack(pady=10)
