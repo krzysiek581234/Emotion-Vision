@@ -2,9 +2,11 @@ import cv2
 import tkinter as tk
 from tkinter import filedialog
 from PIL import ImageTk, Image
+import torch.nn as nn
 from CNN import CNN
 from NeuralNet import NeuralNet
 import torch
+from torchvision import models
 
 selected_image = None
 original_image = None
@@ -25,6 +27,13 @@ def feedforward_button_click():
     else:
         model_detect_emotions('feedforward')
 
+def transferlearning_button_click():
+    if found_faces is None:
+        print("No image selected.")
+        return
+    else:
+        model_detect_emotions('transferlearning')
+
 def model_detect_emotions(model_name):
     face_image = selected_image.copy()
     emotions = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
@@ -35,6 +44,13 @@ def model_detect_emotions(model_name):
     elif model_name == 'feedforward':
         model = NeuralNet(2304, 7).to(device)
         model.load_state_dict(torch.load('./feed-Forward.pth', map_location=torch.device('cpu')))
+    elif model_name == 'transferlearning':
+        model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
+        num_classes = 7
+        model.fc = nn.Linear(model.fc.in_features, num_classes)
+        state_dict = torch.load('./resnet-transfer.pth', map_location=torch.device('cpu'))
+        model.load_state_dict(state_dict)
+        model = model.to(device)
     model.eval()
 
     for i, face in enumerate(found_faces):
@@ -129,7 +145,7 @@ def choose_image():
     window.geometry(f"{window_width}x{window_height}")
 
 window = tk.Tk()
-window.title("Face Detection")
+window.title("Emotion Detection")
 
 window.geometry("960x540")
 window.resizable(True, True)
@@ -149,8 +165,8 @@ cnn_button.pack(pady=10)
 feedforward_button = tk.Button(buttons_frame, text="Feed Forward", command=feedforward_button_click)
 feedforward_button.pack(pady=10)
 
-transfer_learning_button = tk.Button(buttons_frame, text="Transfer Learning")
-transfer_learning_button.pack(pady=10)
+transferlearning_button = tk.Button(buttons_frame, text="Transfer Learning", command=transferlearning_button_click)
+transferlearning_button.pack(pady=10)
 
 labels_frame = tk.Frame(window)
 labels_frame.pack()
