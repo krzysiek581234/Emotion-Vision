@@ -2,14 +2,17 @@ import cv2
 import tkinter as tk
 from tkinter import filedialog
 from PIL import ImageTk, Image
+import torch.nn as nn
 from CNN import CNN
-from NeuralNet import NeuralNet
+from krzysiek.FCNN.NeuralNet import NeuralNet
 import torch
+from torchvision import models
 
 selected_image = None
 original_image = None
 found_faces = []
 coords = []
+
 
 def cnn_button_click():
     if found_faces is None:
@@ -18,12 +21,22 @@ def cnn_button_click():
     else:
         model_detect_emotions('cnn')
 
+
 def feedforward_button_click():
     if found_faces is None:
         print("No image selected.")
         return
     else:
         model_detect_emotions('feedforward')
+
+
+def transferlearning_button_click():
+    if found_faces is None:
+        print("No image selected.")
+        return
+    else:
+        model_detect_emotions('transferlearning')
+
 
 def model_detect_emotions(model_name):
     face_image = selected_image.copy()
@@ -35,6 +48,27 @@ def model_detect_emotions(model_name):
     elif model_name == 'feedforward':
         model = NeuralNet(2304, 7).to(device)
         model.load_state_dict(torch.load('./feed-Forward.pth', map_location=torch.device('cpu')))
+
+
+        model.eval()
+        with torch.no_grad():
+
+            img = cv2.cvtColor(selected_image, cv2.COLOR_BGR2GRAY)
+            img = torch.from_numpy(img.reshape(1, -1)).float()
+            img = img.to(device)
+            outputs = model(img)
+            _, predictions = torch.max(outputs, 1)
+            emotion_label = emotions[predictions]
+            print(outputs)
+            print(emotion_label)
+            return
+    elif model_name == 'transferlearning':
+        model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
+        num_classes = 7
+        model.fc = nn.Linear(model.fc.in_features, num_classes)
+        state_dict = torch.load('./resnet-transfer.pth', map_location=torch.device('cpu'))
+        model.load_state_dict(state_dict)
+        model = model.to(device)
     model.eval()
 
     for i, face in enumerate(found_faces):
@@ -43,7 +77,7 @@ def model_detect_emotions(model_name):
             probabilities = torch.softmax(output, dim=1)
             emotion_index = torch.argmax(probabilities).item()
             emotion_label = emotions[emotion_index]
-        x, y = coords[i][0], coords[i][1] 
+        x, y = coords[i][0], coords[i][1]
         cv2.putText(face_image, emotion_label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
 
     emotions_image = cv2.cvtColor(face_image, cv2.COLOR_BGR2RGB)
@@ -59,7 +93,8 @@ def contains_eye(face, eyes):
         if x > face_x and x + w < face_x + face_w and y > face_y and y + h < face_y + face_h:
             return True
     return False
-    
+
+
 def detect_face():
     global selected_image
     selected_image = original_image.copy()
@@ -83,10 +118,11 @@ def detect_face():
     # mark the faces on the image
     for face in faces:
         x, y, w, h = face
-        accept_face = contains_eye(face, eyes)
+        #accept_face = contains_eye(face, eyes)
+        accept_face = True
         if accept_face:
             # extract the region of interest (face) from the image
-            face_roi = gray[y:y+h, x:x+w]
+            face_roi = gray[y:y + h, x:x + w]
             # resize the image
             face_roi = cv2.resize(face_roi, (48, 48))
             face_roi = face_roi.reshape(1, 1, 48, 48)
@@ -96,15 +132,16 @@ def detect_face():
             face_tensor = face_tensor.to(device)
             found_faces.append(face_tensor)
             coords.append((x, y))
-        #draw the rectangle that contains a face
-        cv2.rectangle(selected_image, (x, y), (x+w, y+h), (0, 0, 255), 2)
-    
+        # draw the rectangle that contains a face
+        cv2.rectangle(selected_image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+
     haar_image = cv2.cvtColor(selected_image, cv2.COLOR_BGR2RGB)
     haar_image = Image.fromarray(haar_image)
     haar_image_tk = ImageTk.PhotoImage(haar_image)
     display_image_label.configure(image=haar_image_tk)
     display_image_label.image = haar_image_tk
-    
+
+
 def choose_image():
     global selected_image, original_image
     found_faces.clear()
@@ -112,7 +149,7 @@ def choose_image():
     file_path = filedialog.askopenfilename()
     if not file_path:
         return
-    
+
     # load the chosen image and display it on the window
     image = cv2.imread(file_path)
     selected_image = image.copy()
@@ -126,10 +163,15 @@ def choose_image():
     # update the window geometry based on the image size
     window_width = chosen_image.width + 20
     window_height = chosen_image.height + 20
+    if window_width < 200:
+        window_width = 200
+    if window_height < 200:
+        window_height = 200
     window.geometry(f"{window_width}x{window_height}")
 
+
 window = tk.Tk()
-window.title("Face Detection")
+window.title("Emotion Detection")
 
 window.geometry("960x540")
 window.resizable(True, True)
@@ -149,8 +191,8 @@ cnn_button.pack(pady=10)
 feedforward_button = tk.Button(buttons_frame, text="Feed Forward", command=feedforward_button_click)
 feedforward_button.pack(pady=10)
 
-transfer_learning_button = tk.Button(buttons_frame, text="Transfer Learning")
-transfer_learning_button.pack(pady=10)
+transferlearning_button = tk.Button(buttons_frame, text="Transfer Learning", command=transferlearning_button_click)
+transferlearning_button.pack(pady=10)
 
 labels_frame = tk.Frame(window)
 labels_frame.pack()
