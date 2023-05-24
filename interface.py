@@ -29,14 +29,12 @@ def feedforward_button_click():
     else:
         model_detect_emotions('feedforward')
 
-
 def transferlearning_button_click():
     if found_faces is None:
         print("No image selected.")
         return
     else:
         model_detect_emotions('transferlearning')
-
 
 def model_detect_emotions(model_name):
     face_image = selected_image.copy()
@@ -48,11 +46,8 @@ def model_detect_emotions(model_name):
     elif model_name == 'feedforward':
         model = NeuralNet(2304, 7).to(device)
         model.load_state_dict(torch.load('./feed-Forward.pth', map_location=torch.device('cpu')))
-
-
         model.eval()
         with torch.no_grad():
-
             img = cv2.cvtColor(selected_image, cv2.COLOR_BGR2GRAY)
             img = torch.from_numpy(img.reshape(1, -1)).float()
             img = img.to(device)
