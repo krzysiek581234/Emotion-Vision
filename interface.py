@@ -2,10 +2,9 @@ import cv2
 import tkinter as tk
 from tkinter import filedialog
 from PIL import ImageTk, Image
-import torch.nn as nn
+import torch
 from CNN import CNN
 from NeuralNet import NeuralNet
-import torch
 from torchvision import models
 
 selected_image = None
@@ -39,41 +38,47 @@ def model_detect_emotions(model_name):
     face_tensors = []
     emotions = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
     if model_name == 'cnn':
         model = CNN().to(device)
         model.load_state_dict(torch.load('./model.pth', map_location=torch.device('cpu')))
-
     elif model_name == 'feedforward':
         model = NeuralNet(2304, 7).to(device)
         model.load_state_dict(torch.load('./feed-Forward.pth', map_location=torch.device('cpu')))
     elif model_name == 'transferlearning':
         model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
         num_classes = 7
-        model.fc = nn.Linear(model.fc.in_features, num_classes)
+        model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
         state_dict = torch.load('./resnet-transfer.pth', map_location=torch.device('cpu'))
         model.load_state_dict(state_dict)
         model = model.to(device)
     model.eval()
 
     for face_roi in found_faces:
+        # resize the image
+        face_roi = cv2.resize(face_roi, (48, 48))
+        face_tensor = None
+
         if model_name == 'cnn':
-            # resize the image
-            face_roi = cv2.resize(face_roi, (48, 48))
+            # reshape the image
             face_roi = face_roi.reshape(1, 1, 48, 48)
             face_roi = face_roi.astype("float32") / 255.0
             # convert face_roi to a PyTorch tensor
             face_tensor = torch.from_numpy(face_roi)
-            face_tensor = face_tensor.to(device)
-            face_tensors.append(face_tensor)
         elif model_name == 'feedforward':
-            # resize the image
-            face_roi = cv2.resize(face_roi, (48, 48))
+            # reshape the image
             face_roi.reshape(48,48)
             # convert face_roi to a PyTorch tensor
-            face_tensor = torch.from_numpy(face_roi.reshape(1,-1)).float()
-            face_tensor = face_tensor.to(device)
-            face_tensors.append(face_tensor)
+            face_tensor = torch.from_numpy(face_roi.reshape(1, -1)).float()
+        elif model_name == 'transferlearning':
+            # convert grayscale to RGB 
+            face_roi = cv2.cvtColor(face_roi, cv2.COLOR_GRAY2RGB)
+            face_roi = face_roi.astype("float32") / 255.0
+            # convert face_roi to a PyTorch tensor
+            face_tensor = torch.from_numpy(face_roi.transpose((2, 0, 1))).unsqueeze(0)
 
+        face_tensor = face_tensor.to(device)
+        face_tensors.append(face_tensor)
 
     for i, face in enumerate(face_tensors):
         with torch.no_grad():
@@ -90,7 +95,6 @@ def model_detect_emotions(model_name):
     display_image_label.configure(image=emotions_image_tk)
     display_image_label.image = emotions_image_tk
 
-
 def contains_eye(face, eyes):
     face_x, face_y, face_w, face_h = face
     for (x, y, w, h) in eyes:
@@ -105,7 +109,6 @@ def detect_face():
     coords.clear()
     eyes_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     # convert chosen image to grayscale
     gray = cv2.cvtColor(selected_image, cv2.COLOR_BGR2GRAY)
@@ -127,7 +130,7 @@ def detect_face():
             face_roi = gray[y:y+h, x:x+w]
             found_faces.append(face_roi)
             coords.append((x, y))
-        #draw the rectangle that contains a face
+        # draw the rectangle that contains a face
         cv2.rectangle(selected_image, (x, y), (x+w, y+h), (0, 0, 255), 2)
     
     haar_image = cv2.cvtColor(selected_image, cv2.COLOR_BGR2RGB)
@@ -155,7 +158,7 @@ def choose_image():
     display_image_label.image = chosen_image_tk
 
     # update the window geometry based on the image size
-    window_width = chosen_image.width + 20
+    window_width = chosen_image.width + 150
     window_height = chosen_image.height + 20
     window.geometry(f"{window_width}x{window_height}")
 
