@@ -7,7 +7,6 @@ import torchvision.transforms as transforms
 import os
 import matplotlib.pyplot as plt
 
-
 # Set random seed for reproducibility
 torch.manual_seed(42)
 
@@ -68,7 +67,7 @@ transform = transforms.Compose([
 
 
 # Load the augmented images dataset
-dataset = ImageFolder('/kaggle/input/fer2013augmented/augmented_images', transform=transform)
+dataset = ImageFolder('/kaggle/input/fer2013/training_images/training_images', transform=transform)
 train_set, val_set = torch.utils.data.random_split(dataset, [int(0.8*len(dataset)), len(dataset)-int(0.8*len(dataset))])
 
 # Create data loaders
@@ -167,7 +166,7 @@ plt.title('Training and Validation Accuracies')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy (%)')
 plt.legend()
-plt.savefig('accuracy_plot.png')  # Save accuracy plot as image
+plt.savefig('accuracy_plot_basic.png')  # Save accuracy plot as image
 plt.show()
 
 # Loss plot
@@ -177,7 +176,7 @@ plt.title('Training and Validation Losses')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
-plt.savefig('loss_plot.png')  # Save loss plot as image
+plt.savefig('loss_plot_basic.png')  # Save loss plot as image
 plt.show()
 
-torch.save(model.state_dict(), f'/kaggle/working/model_{num_epochs}2.pth')
+torch.save(model.state_dict(), f'/kaggle/working/model_basic.pth')

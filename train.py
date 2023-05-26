@@ -12,21 +12,6 @@ from FER2013Dataset import FER2013Dataset
 from HaarCascade import HaarCascade
 
 
-# Defining plotting settings
-
-plt.rcParams['figure.figsize'] = 14, 6
-
-# paths to FER2013 CSV files
-train_csv_file = './data/train/train.csv'
-test_csv_file = './data/test/test.csv'
-
-# Define the transformations to be applied
-transform = transforms.Compose([
-    transforms.ToPILImage(),        # Convert tensor to PIL Image
-    transforms.ToTensor(),          # Convert PIL Image to tensor
-    transforms.Normalize((0.5,), (0.5,))  # Normalize the image tensor
-])
-
 aug_transform = transforms.Compose([
     transforms.Resize((48, 48)),
     transforms.ToTensor(),
@@ -34,46 +19,14 @@ aug_transform = transforms.Compose([
 ])
 
 # Create an instance of the FER2013 dataset
-train_dataset = FER2013Dataset(train_csv_file, transform=transform)
-test_dataset = FER2013Dataset(test_csv_file, transform=transform)
+dataset = FER2013Dataset(aug_transform)
 
-augmented_train_dataset = AugmentedDataset('augmented_images', aug_transform)
-
-# Create a DataLoader to load the data in batches
-batch_size = 128
-train_loader = DataLoader(augmented_train_dataset, batch_size=batch_size, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
-
-# Plotting 25 images from the 1st batch
-dataiter = iter(train_loader)
-images, labels = next(dataiter)
-plt.imshow(np.transpose(torchvision.utils.make_grid(
-    images[:25], normalize=True, padding=1, nrow=5).numpy(), (1, 2, 0)))
-plt.axis('off')
-# plt.show()
+train_loader = dataset.load_train_dataset()
+test_loader = dataset.load_test_dataset()
 
 # Selecting the appropriate training device
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-print(device)
 model = CNN().to(device)
-
-# haar face cascade classifier
-face_cascade = cv2.CascadeClassifier('./haarcascade_frontalface_default.xml')
-
-# Define transformations to apply to the images
-normalise_transform = transforms.Compose([
-    transforms.Grayscale(num_output_channels=1),  # Convert to grayscale
-    transforms.Resize((48, 48), antialias=True),                   # Resize to (48, 48)
-    transforms.Normalize(mean=[0.5], std=[0.5])     # Normalize the tensor
-])
-
-# Function to preprocess face images
-def preprocess_face(image):
-    resized = normalise_transform(image)
-    return resized
-
-# HAAR CASCADE CLASSIFIER
-haar = HaarCascade('./haarcascade_frontalface_default.xml')
 
 # Defining the model hyper parameters
 num_epochs = 30

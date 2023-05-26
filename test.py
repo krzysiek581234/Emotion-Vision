@@ -8,20 +8,12 @@ from sklearn.metrics import confusion_matrix
 
 from CNN import CNN
 from FER2013Dataset import FER2013Dataset
+from TestMetrics import TestMetrics
 
 test_acc = 0
-model = CNN()  # Create an instance of the model
-model.load_state_dict(torch.load('./model/model_302.pth', map_location=torch.device('cpu')))
+model = CNN()
+model.load_state_dict(torch.load('./model/model_basic.pth', map_location=torch.device('cpu')))
 model.eval()
-
-test_csv_file = './data/test/test.csv'
-
-# Define the transformations to be applied
-transform2 = transforms.Compose([
-    transforms.ToPILImage(),        # Convert tensor to PIL Image
-    transforms.ToTensor(),          # Convert PIL Image to tensor
-    transforms.Normalize((0.5,), (0.5,))  # Normalize the image tensor
-])
 
 # Define transformations to apply to the input images
 transform = transforms.Compose([
@@ -33,11 +25,9 @@ transform = transforms.Compose([
 # Load the augmented images dataset
 test_dataset = ImageFolder('./test_images', transform=transform)
 
-# Create data loaders
+# Create data loader
 batch_size = 128
 test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
-
-# test_dataset = FER2013Dataset(test_csv_file, transform=transform)
 
 # test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -60,7 +50,6 @@ with torch.no_grad():
     true_labels = []
     for images, labels in test_loader:
         images = images.to(device)
-        print(images)
         labels = labels.to(device)
         outputs = model(images)
         _, predicted = torch.max(outputs.data, 1)
@@ -72,7 +61,5 @@ with torch.no_grad():
     accuracy = 100 * correct / total
     print(f'Test set accuracy = {accuracy:.2f}%')
 
-    # Create confusion matrix
-    cm = confusion_matrix(true_labels, predicted_labels)
-    print('Confusion Matrix:')
-    print(cm)
+    metrics = TestMetrics(true_labels, predicted_labels)
+    metrics.print_metrics()
