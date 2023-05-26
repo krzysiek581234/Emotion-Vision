@@ -4,7 +4,7 @@ from tkinter import filedialog
 from PIL import ImageTk, Image
 import torch.nn as nn
 from CNN import CNN
-from krzysiek.FCNN.NeuralNet import NeuralNet
+from NeuralNet import NeuralNet
 import torch
 from torchvision import models
 
@@ -13,14 +13,12 @@ original_image = None
 found_faces = []
 coords = []
 
-
 def cnn_button_click():
     if found_faces is None:
         print("No image selected.")
         return
     else:
         model_detect_emotions('cnn')
-
 
 def feedforward_button_click():
     if found_faces is None:
@@ -38,25 +36,16 @@ def transferlearning_button_click():
 
 def model_detect_emotions(model_name):
     face_image = selected_image.copy()
+    face_tensors = []
     emotions = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     if model_name == 'cnn':
         model = CNN().to(device)
         model.load_state_dict(torch.load('./model.pth', map_location=torch.device('cpu')))
+
     elif model_name == 'feedforward':
         model = NeuralNet(2304, 7).to(device)
         model.load_state_dict(torch.load('./feed-Forward.pth', map_location=torch.device('cpu')))
-        model.eval()
-        with torch.no_grad():
-            img = cv2.cvtColor(selected_image, cv2.COLOR_BGR2GRAY)
-            img = torch.from_numpy(img.reshape(1, -1)).float()
-            img = img.to(device)
-            outputs = model(img)
-            _, predictions = torch.max(outputs, 1)
-            emotion_label = emotions[predictions]
-            print(outputs)
-            print(emotion_label)
-            return
     elif model_name == 'transferlearning':
         model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
         num_classes = 7
@@ -66,13 +55,33 @@ def model_detect_emotions(model_name):
         model = model.to(device)
     model.eval()
 
-    for i, face in enumerate(found_faces):
+    for face_roi in found_faces:
+        if model_name == 'cnn':
+            # resize the image
+            face_roi = cv2.resize(face_roi, (48, 48))
+            face_roi = face_roi.reshape(1, 1, 48, 48)
+            face_roi = face_roi.astype("float32") / 255.0
+            # convert face_roi to a PyTorch tensor
+            face_tensor = torch.from_numpy(face_roi)
+            face_tensor = face_tensor.to(device)
+            face_tensors.append(face_tensor)
+        elif model_name == 'feedforward':
+            # resize the image
+            face_roi = cv2.resize(face_roi, (48, 48))
+            face_roi.reshape(48,48)
+            # convert face_roi to a PyTorch tensor
+            face_tensor = torch.from_numpy(face_roi.reshape(1,-1)).float()
+            face_tensor = face_tensor.to(device)
+            face_tensors.append(face_tensor)
+
+
+    for i, face in enumerate(face_tensors):
         with torch.no_grad():
             output = model(face)
             probabilities = torch.softmax(output, dim=1)
             emotion_index = torch.argmax(probabilities).item()
             emotion_label = emotions[emotion_index]
-        x, y = coords[i][0], coords[i][1]
+        x, y = coords[i][0], coords[i][1] 
         cv2.putText(face_image, emotion_label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
 
     emotions_image = cv2.cvtColor(face_image, cv2.COLOR_BGR2RGB)
@@ -88,8 +97,7 @@ def contains_eye(face, eyes):
         if x > face_x and x + w < face_x + face_w and y > face_y and y + h < face_y + face_h:
             return True
     return False
-
-
+    
 def detect_face():
     global selected_image
     selected_image = original_image.copy()
@@ -113,30 +121,21 @@ def detect_face():
     # mark the faces on the image
     for face in faces:
         x, y, w, h = face
-        #accept_face = contains_eye(face, eyes)
-        accept_face = True
+        accept_face = contains_eye(face, eyes)
         if accept_face:
             # extract the region of interest (face) from the image
-            face_roi = gray[y:y + h, x:x + w]
-            # resize the image
-            face_roi = cv2.resize(face_roi, (48, 48))
-            face_roi = face_roi.reshape(1, 1, 48, 48)
-            face_roi = face_roi.astype("float32") / 255.0
-            # convert face_roi to a PyTorch tensor
-            face_tensor = torch.from_numpy(face_roi)
-            face_tensor = face_tensor.to(device)
-            found_faces.append(face_tensor)
+            face_roi = gray[y:y+h, x:x+w]
+            found_faces.append(face_roi)
             coords.append((x, y))
-        # draw the rectangle that contains a face
-        cv2.rectangle(selected_image, (x, y), (x + w, y + h), (0, 0, 255), 2)
-
+        #draw the rectangle that contains a face
+        cv2.rectangle(selected_image, (x, y), (x+w, y+h), (0, 0, 255), 2)
+    
     haar_image = cv2.cvtColor(selected_image, cv2.COLOR_BGR2RGB)
     haar_image = Image.fromarray(haar_image)
     haar_image_tk = ImageTk.PhotoImage(haar_image)
     display_image_label.configure(image=haar_image_tk)
     display_image_label.image = haar_image_tk
-
-
+    
 def choose_image():
     global selected_image, original_image
     found_faces.clear()
@@ -144,7 +143,7 @@ def choose_image():
     file_path = filedialog.askopenfilename()
     if not file_path:
         return
-
+    
     # load the chosen image and display it on the window
     image = cv2.imread(file_path)
     selected_image = image.copy()
@@ -158,12 +157,7 @@ def choose_image():
     # update the window geometry based on the image size
     window_width = chosen_image.width + 20
     window_height = chosen_image.height + 20
-    if window_width < 200:
-        window_width = 200
-    if window_height < 200:
-        window_height = 200
     window.geometry(f"{window_width}x{window_height}")
-
 
 window = tk.Tk()
 window.title("Emotion Detection")
