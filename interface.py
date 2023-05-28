@@ -3,8 +3,8 @@ import tkinter as tk
 from tkinter import filedialog
 from PIL import ImageTk, Image
 import torch
-from CNN import CNN
-from NeuralNet import NeuralNet
+from CNN.CNN import CNN
+from FF.NeuralNet import NeuralNet
 from torchvision import models
 
 selected_image = None
@@ -41,15 +41,15 @@ def model_detect_emotions(model_name):
 
     if model_name == 'cnn':
         model = CNN().to(device)
-        model.load_state_dict(torch.load('./model.pth', map_location=torch.device('cpu')))
+        model.load_state_dict(torch.load('savedModels/cnn.pth', map_location=torch.device('cpu')))
     elif model_name == 'feedforward':
         model = NeuralNet(2304, 7).to(device)
-        model.load_state_dict(torch.load('./feed-Forward.pth', map_location=torch.device('cpu')))
+        model.load_state_dict(torch.load('savedModels/FF.pth', map_location=torch.device('cpu')))
     elif model_name == 'transferlearning':
         model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
         num_classes = 7
         model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
-        state_dict = torch.load('./resnet-transfer.pth', map_location=torch.device('cpu'))
+        state_dict = torch.load('savedModels/TL.pth', map_location=torch.device('cpu'))
         model.load_state_dict(state_dict)
         model = model.to(device)
     model.eval()
