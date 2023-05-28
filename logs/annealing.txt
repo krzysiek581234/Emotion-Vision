@@ -1,0 +1,828 @@
+ITERATION 1
+Temperature: 10.0
+Current best parameters:
+{'learning_rate': 0.001, 'num_epochs': 25, 'batch_size': 64}
+Current best loss:
+inf
+New parameters:
+{'learning_rate': 0.0011, 'num_epochs': 23, 'batch_size': 128}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+epoch 23
+ITERATION 2
+Temperature: 8.576958985908941
+Current best parameters:
+{'learning_rate': 0.0011, 'num_epochs': 23, 'batch_size': 128}
+Current best loss:
+123.80366903543472
+New parameters:
+{'learning_rate': 0.001, 'num_epochs': 21, 'batch_size': 128}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+ITERATION 3
+Temperature: 7.3564225445964135
+Current best parameters:
+{'learning_rate': 0.001, 'num_epochs': 21, 'batch_size': 128}
+Current best loss:
+124.02310928702354
+New parameters:
+{'learning_rate': 0.001, 'num_epochs': 23, 'batch_size': 64}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+epoch 23
+ITERATION 4
+Temperature: 6.3095734448019325
+Current best parameters:
+{'learning_rate': 0.001, 'num_epochs': 21, 'batch_size': 128}
+Current best loss:
+124.02310928702354
+New parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+ITERATION 5
+Temperature: 5.411695265464637
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0008, 'num_epochs': 22, 'batch_size': 64}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+ITERATION 6
+Temperature: 4.641588833612779
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 32}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+ITERATION 7
+Temperature: 3.9810717055349727
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0007, 'num_epochs': 20, 'batch_size': 32}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+ITERATION 8
+Temperature: 3.4145488738336023
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0007, 'num_epochs': 20, 'batch_size': 64}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+ITERATION 9
+Temperature: 2.9286445646252366
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0009, 'num_epochs': 22, 'batch_size': 64}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+ITERATION 10
+Temperature: 2.51188643150958
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0009, 'num_epochs': 22, 'batch_size': 32}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+ITERATION 11
+Temperature: 2.1544346900318843
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0008, 'num_epochs': 22, 'batch_size': 64}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+ITERATION 12
+Temperature: 1.8478497974222914
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+ITERATION 13
+Temperature: 1.5848931924611138
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0006, 'num_epochs': 20, 'batch_size': 64}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+ITERATION 14
+Temperature: 1.3593563908785258
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0009, 'num_epochs': 20, 'batch_size': 64}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+ITERATION 15
+Temperature: 1.1659144011798321
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0009, 'num_epochs': 20, 'batch_size': 32}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+ITERATION 16
+Temperature: 1.0000000000000002
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0007, 'num_epochs': 20, 'batch_size': 128}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+ITERATION 17
+Temperature: 0.8576958985908942
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0009, 'num_epochs': 22, 'batch_size': 128}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+ITERATION 18
+Temperature: 0.7356422544596417
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0009, 'num_epochs': 20, 'batch_size': 64}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+ITERATION 19
+Temperature: 0.6309573444801931
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.001, 'num_epochs': 22, 'batch_size': 32}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+ITERATION 20
+Temperature: 0.5411695265464638
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0009, 'num_epochs': 20, 'batch_size': 32}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+ITERATION 21
+Temperature: 0.46415888336127814
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.0009, 'num_epochs': 21, 'batch_size': 64}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+ITERATION 22
+Temperature: 0.39810717055349726
+Current best parameters:
+{'learning_rate': 0.0008, 'num_epochs': 20, 'batch_size': 128}
+Current best loss:
+125.28392660617828
+New parameters:
+{'learning_rate': 0.001, 'num_epochs': 22, 'batch_size': 128}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+ITERATION 23
+Temperature: 0.34145488738336033
+Current best parameters:
+{'learning_rate': 0.001, 'num_epochs': 22, 'batch_size': 128}
+Current best loss:
+124.01301524043083
+New parameters:
+{'learning_rate': 0.0011, 'num_epochs': 23, 'batch_size': 128}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+epoch 23
+ITERATION 24
+Temperature: 0.29286445646252374
+Current best parameters:
+{'learning_rate': 0.0011, 'num_epochs': 23, 'batch_size': 128}
+Current best loss:
+116.26828870177269
+New parameters:
+{'learning_rate': 0.001, 'num_epochs': 22, 'batch_size': 128}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 21
+epoch 22
+ITERATION 25
+Temperature: 0.25118864315095807
+Current best parameters:
+{'learning_rate': 0.0011, 'num_epochs': 23, 'batch_size': 128}
+Current best loss:
+116.26828870177269
+New parameters:
+{'learning_rate': 0.001, 'num_epochs': 25, 'batch_size': 64}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+epoch 23
+epoch 24
+epoch 25
+ITERATION 26
+Temperature: 0.2154434690031884
+Current best parameters:
+{'learning_rate': 0.0011, 'num_epochs': 23, 'batch_size': 128}
+Current best loss:
+116.26828870177269
+New parameters:
+{'learning_rate': 0.0011, 'num_epochs': 22, 'batch_size': 32}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+ITERATION 27
+Temperature: 0.18478497974222918
+Current best parameters:
+{'learning_rate': 0.0011, 'num_epochs': 23, 'batch_size': 128}
+Current best loss:
+116.26828870177269
+New parameters:
+{'learning_rate': 0.0009, 'num_epochs': 21, 'batch_size': 32}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+ITERATION 28
+Temperature: 0.15848931924611143
+Current best parameters:
+{'learning_rate': 0.0011, 'num_epochs': 23, 'batch_size': 128}
+Current best loss:
+116.26828870177269
+New parameters:
+{'learning_rate': 0.001, 'num_epochs': 24, 'batch_size': 128}
+epoch 1
+epoch 2
+epoch 3
+epoch 4
+epoch 5
+epoch 6
+epoch 7
+epoch 8
+epoch 9
+epoch 10
+epoch 11
+epoch 12
+epoch 13
+epoch 14
+epoch 15
+epoch 16
+epoch 17
+epoch 18
+epoch 19
+epoch 20
+epoch 21
+epoch 22
+epoch 23
+epoch 24
+ITERATION 29
+Temperature: 0.13593563908785267
+Current best parameters:
+{'learning_rate': 0.0011, 'num_epochs': 23, 'batch_size': 128}
+Current best loss:
+116.26828870177269
+New parameters:
+{'learning_rate': 0.0011, 'num_epochs': 24, 'batch_size': 128}
+epoch 1
