@@ -79,8 +79,7 @@ transform = transforms.Compose([
 ])
 
 dataset = ImageFolder('/kaggle/input/fer2013augmented/augmented_images', transform=transform)
-train_set, val_set = torch.utils.data.random_split(dataset,
-                                                   [int(0.8 * len(dataset)), len(dataset) - int(0.8 * len(dataset))])
+train_set, val_set = torch.utils.data.random_split(dataset, [int(0.8 * len(dataset)), int(0.2 * len(dataset))])
 
 
 # Define the cooling schedule

@@ -1,16 +1,9 @@
-import cv2
 import torch
-import torchvision
 import matplotlib.pyplot as plt
-import numpy as np
 from torchvision.transforms import transforms
-from torch.utils.data import DataLoader
 
-from AugmentedDataset import AugmentedDataset
 from CNN import CNN
 from FER2013Dataset import FER2013Dataset
-from HaarCascade import HaarCascade
-
 
 aug_transform = transforms.Compose([
     transforms.Resize((48, 48)),
@@ -68,5 +61,5 @@ plt.xlabel("Number of epochs")
 plt.ylabel("Training loss")
 plt.show()
 
-torch.save(model.state_dict(), './model/model9.pth')
+torch.save(model.state_dict(), './model/model0.pth')
 

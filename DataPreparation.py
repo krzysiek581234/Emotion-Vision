@@ -1,8 +1,6 @@
 import cv2
 import numpy as np
 import os
-from PIL import Image
-
 
 def load_dataset(path):
     X_train = []

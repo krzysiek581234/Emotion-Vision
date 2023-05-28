@@ -1,7 +1,5 @@
-import cv2
 import numpy as np
 import torch
-import pandas as pd
 from torchvision import transforms
 from torch.utils.data import Dataset, DataLoader
 from torchvision.datasets import ImageFolder
