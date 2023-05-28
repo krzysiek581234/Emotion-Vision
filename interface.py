@@ -41,7 +41,7 @@ def model_detect_emotions(model_name):
 
     if model_name == 'cnn':
         model = CNN().to(device)
-        model.load_state_dict(torch.load('./model.pth', map_location=torch.device('cpu')))
+        model.load_state_dict(torch.load('./model_final.pth', map_location=torch.device('cpu')))
     elif model_name == 'feedforward':
         model = NeuralNet(2304, 7).to(device)
         model.load_state_dict(torch.load('./feed-Forward.pth', map_location=torch.device('cpu')))
