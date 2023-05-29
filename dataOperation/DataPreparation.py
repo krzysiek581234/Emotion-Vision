@@ -95,7 +95,7 @@ def save_basic_training(X_train, y_train):
 
 
 # Load the FER2013 dataset
-X_train, y_train, X_test, y_test = load_dataset('./data/icml_face_data.csv/icml_face_data.csv')
+X_train, y_train, X_test, y_test = load_dataset('../dataset/icml_face_data.csv/icml_face_data.csv')
 
 # Define the path to save the augmented images
 save_path = 'augmented_images'
