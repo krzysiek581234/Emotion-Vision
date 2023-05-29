@@ -11,7 +11,6 @@ selected_image = None
 original_image = None
 found_faces = []
 coords = []
-
 def cnn_button_click():
     if found_faces is None:
         print("No image selected.")
@@ -107,8 +106,8 @@ def detect_face():
     selected_image = original_image.copy()
     found_faces.clear()
     coords.clear()
-    eyes_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
-    face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+    eyes_cascade = cv2.CascadeClassifier('HaarFilters/haarcascade_eye.xml')
+    face_cascade = cv2.CascadeClassifier('HaarFilters/haarcascade_frontalface_default.xml')
 
     # convert chosen image to grayscale
     gray = cv2.cvtColor(selected_image, cv2.COLOR_BGR2GRAY)

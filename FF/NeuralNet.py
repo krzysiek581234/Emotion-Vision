@@ -10,7 +10,8 @@ class NeuralNet(nn.Module):
         super(NeuralNet, self).__init__()
         self.input_size = input_size
         self.dropout = nn.Dropout(p=0.1)
-        self.relu = nn.LeakyReLU()
+        self.Leakyrelu = nn.LeakyReLU()
+        self.relu = nn.ReLU()
         #magic
         self.l1 = nn.Linear(input_size, hidden_size1)
         nn.init.xavier_uniform_(self.l1.weight)
